@@ -16,11 +16,7 @@ from reportlab.pdfgen import canvas
 
 import traceback
 
-@app.errorhandler(Exception)
-def handle_exception(e):
-    print("ERROR OCCURRED:")
-    traceback.print_exc()
-    return "Internal Server Error", 500
+
 
 # =========================
 # Configuration
@@ -61,7 +57,11 @@ app.secret_key = os.environ.get("SECRET_KEY", "fallback_random_key_2025")
 
 model = None
 
-
+@app.errorhandler(Exception)
+def handle_exception(e):
+    print("ERROR OCCURRED:")
+    traceback.print_exc()
+    return "Internal Server Error", 500
 # =========================
 # Model loading
 # =========================
