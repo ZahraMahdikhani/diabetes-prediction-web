@@ -18,7 +18,7 @@ MODEL_PATH = "diabetes_model.pkl"
 
 # ----- Load model and threshold -----
 THRESHOLD = float(os.environ.get("THRESHOLD", 0.502))
-model = joblib.load(MODEL_PATH)
+#model = joblib.load(MODEL_PATH)
 
 # فقط ۱۰ ویژگی که مدل با آنها آموزش دیده
 SELECTED_FEATURES = [
