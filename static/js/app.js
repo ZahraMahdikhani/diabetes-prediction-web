@@ -1,16 +1,17 @@
-// app.js - نسخه دو مرحله‌ای با اعتبارسنجی بهتر
+// app.js - multi-step form with validation
 
 const form = document.getElementById("diabetesForm");
 const sections = document.querySelectorAll(".form-section");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const submitBtn = document.getElementById("submitBtn");
-const progressBar = document.getElementById("progressBar"); // اگر progress bar نداری، این خط رو کامنت کن
+const progressBar = document.getElementById("progressBar");
 
 let currentSection = 0;
 
-// شروع
+// Only run when form and sections exist (this page)
 function init() {
+    if (!form || sections.length === 0) return;
     showSection(0);
     updateButtons();
     // اگر progress bar داری:
@@ -89,12 +90,14 @@ if (prevBtn) {
 }
 
 // قبل از submit نهایی چک کن
-form.addEventListener("submit", (e) => {
-    if (!validateCurrentSection()) {
-        e.preventDefault();
-        alert("لطفاً تمام موارد را تکمیل کنید.");
-    }
-});
+if (form) {
+    form.addEventListener("submit", (e) => {
+        if (!validateCurrentSection()) {
+            e.preventDefault();
+            alert("لطفاً تمام موارد را تکمیل کنید.");
+        }
+    });
+}
 
 // شروع برنامه
 init();
