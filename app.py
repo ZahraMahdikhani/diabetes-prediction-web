@@ -5,10 +5,7 @@ import sqlite3
 from datetime import datetime
 import joblib
 import pandas as pd
-from flask import (
-    Flask, render_template, request, jsonify,
-    send_file, url_for, redirect, flash
-)
+from flask import Flask, request, render_template, flash, redirect, url_for
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
@@ -38,6 +35,24 @@ SELECTED_FEATURES = [
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "fallback_random_key_2025")
 
+
+model = None  # global
+
+def load_model():
+    global model
+    if model is None:
+        try:
+            model = joblib.load("diabetes_model.pkl")
+            print("Model loaded successfully")
+        except Exception as e:
+            print(f"Error loading model: {e}")
+            raise  # یا هندل کن
+
+@app.before_first_request
+def init_app():
+    load_model()
+    
+    
 # ----- Database helpers -----
 def init_db():
     conn = sqlite3.connect(DB_PATH)
