@@ -13,6 +13,15 @@ from flask import (
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
+
+import traceback
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    print("ERROR OCCURRED:")
+    traceback.print_exc()
+    return "Internal Server Error", 500
+
 # =========================
 # Configuration
 # =========================
