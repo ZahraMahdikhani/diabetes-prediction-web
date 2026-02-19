@@ -76,6 +76,9 @@ def load_model():
 
     model = joblib.load(MODEL_PATH)
     print("Model loaded successfully")
+    print("MODEL PATH:", MODEL_PATH)
+    print("EXISTS:", os.path.exists(MODEL_PATH))
+
 
 
 @app.before_request
