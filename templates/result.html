@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گزارش خطر دیابت شما</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e0f2fe 100%);
+            min-height: 100vh;
+            color: #1f2937;
+        }
+        .result-card {
+            animation: slideUp 0.7s ease-out;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .high-risk { color: #dc2626; }
+        .low-risk  { color: #059669; }
+        .btn {
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <main class="main-content py-10 px-4 sm:px-6 lg:px-8">
+        <div class="container max-w-3xl mx-auto">
+
+            <div class="text-center mb-10">
+                <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-3">نتیجه ارزیابی شما</h1>
+                <p class="text-lg text-gray-600">
+                    ارزیابی خطر دیابت نوع ۲ • {{ prediction.date }}
+                </p>
+            </div>
+
+            <div class="result-card bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+
+                <div class="p-8 sm:p-12 text-center">
+
+                    {% if prediction.result == 1 %}
+                        <!-- حالت خطر بالا -->
+                        <div class="text-8xl mb-6 high-risk">⚠️</div>
+                        <h2 class="text-5xl font-extrabold high-risk mb-6">خطر بالا</h2>
+                        <p class="text-3xl font-bold text-gray-800 mb-8">
+                            احتمال: <span class="high-risk text-5xl">{{ prediction.prob }}</span>
+                        </p>
+                        <div class="bg-red-50 border border-red-200 rounded-xl p-7 mb-10 max-w-2xl mx-auto">
+                            <p class="text-xl leading-relaxed text-gray-800">
+                                بر اساس پاسخ‌های شما، احتمال ابتلا به دیابت نوع ۲ در ۱۰ سال آینده
+                                <strong>بالا</strong> ارزیابی شده است.
+                            </p>
+                            <p class="text-lg mt-6 text-red-800 font-medium">
+                                <strong>توصیه اکید:</strong> هرچه سریع‌تر به پزشک مراجعه کنید
+                                و آزمایش‌های لازم (قند خون ناشتا، HbA1c و ...) را انجام دهید.
+                            </p>
+                        </div>
+                    {% else %}
+                        <!-- حالت خطر پایین -->
+                        <div class="text-8xl mb-6 low-risk">✅</div>
+                        <h2 class="text-5xl font-extrabold low-risk mb-6">خطر پایین</h2>
+                        <p class="text-3xl font-bold text-gray-800 mb-8">
+                            احتمال: <span class="low-risk text-5xl">{{ prediction.prob }}</span>
+                        </p>
+                        <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-7 mb-10 max-w-2xl mx-auto">
+                            <p class="text-xl leading-relaxed text-gray-800">
+                                خبر خوب! بر اساس اطلاعات فعلی، خطر ابتلا به دیابت نوع ۲ در ۱۰ سال آینده
+                                <strong>پایین</strong> است.
+                            </p>
+                            <p class="text-lg mt-6 text-emerald-800 font-medium">
+                                با ادامه سبک زندگی سالم می‌توانید این وضعیت را حفظ کنید.
+                            </p>
+                        </div>
+                    {% endif %}
+
+                    <!-- دکمه‌ها -->
+                    <div class="flex flex-col sm:flex-row gap-5 justify-center mt-12">
+                        <a href="{{ url_for('download_pdf', rec_id=prediction.id) }}"
+                           class="btn bg-blue-600 hover:bg-blue-700 text-white text-xl py-4 px-10 rounded-xl shadow-lg font-medium">
+                            دانلود گزارش PDF
+                        </a>
+
+                        <a href="{{ url_for('index') }}"
+                           class="btn bg-gray-200 hover:bg-gray-300 text-gray-800 text-xl py-4 px-10 rounded-xl shadow-lg font-medium">
+                            آزمون دوباره
+                        </a>
+                    </div>
+
+                    <p class="text-center text-gray-500 mt-12 text-sm">
+                        این ابزار صرفاً برای غربالگری اولیه است • جایگزین تشخیص و مشاوره پزشکی نیست
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

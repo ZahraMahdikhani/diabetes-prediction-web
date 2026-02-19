@@ -1,0 +1,4 @@
+{
+  "threshold": 0.35,
+  "note": "تعادل بین Recall و Precision - مناسب برای اپلیکیشن عمومی"
+}
