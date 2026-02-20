@@ -38,7 +38,8 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 COPY . .
 
 # ساخت یوزر امن
-RUN useradd -m appuser
+RUN useradd -m appuser && \
+    chown -R appuser:appuser /app
 USER appuser
 
 EXPOSE 5000
